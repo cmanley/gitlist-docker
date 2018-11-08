@@ -1,12 +1,11 @@
 gitlist-docker
 ==============
 
-A ready to use docker image containing GitList (a lightweight and elegant git repository viewer)
-running on nginx, php-fpm 7.2, and Alpine Linux 3.8.
+GitList (an elegant and modern git repository viewer) in a small footprint Docker image (based on nginx, php-fpm 7.2, and Alpine Linux 3.8) with configurable runtime options (such as timezone, gid, theme) and an extra custom 100% wide bootstrap theme.
 
-You can use it to quickly expose a web interface to the git repositories directory on your host machine.
+You can use it to quickly and safely expose a web interface to the git repositories directory on your host machine.
 
-The Dockerfile uses a custom build of Gitlist from https://github.com/klaussilveira/gitlist
+The Dockerfile uses a custom build of GitList from https://github.com/klaussilveira/gitlist
 
 Usage
 -----
@@ -65,12 +64,13 @@ Unless your host's repository is world-readable (which it shouldn't be), then yo
 | **GITLIST_THEME** | This can be the name of any existing gitlist theme (default, bootstrap3, bootstrap3-wide)                        |
 | **TZ**            | Specify the time zone to use. Default is UTC. In most cases, use the value in the host's /etc/timezone file.     |
 
-The theme called "default" is the default theme in the original source distribution of gitlist.
+The theme called "default" is the default theme in the original source distribution of GitList.
 In this Docker build however, the default theme has been changed to "bootstrap3-wide" which is a 100% wide variant of the "bootstrap3" theme.
 
 Security information
 --------------------
 
-* nginx runs as nobody:nobody and forwards requests to php-fpm which executes the gitlist code.
+* nginx runs as nobody:nobody and forwards requests to php-fpm which executes the GitList code.
 * php-fpm runs with uid nobody and with the gid of the GITLIST_GID environment variable if given, else with gid of the host volume.
 * It's important to always protect your host's volume by adding the ":ro" attribute to the docker run -v option as in the examples above.
+* The URI /phpinfo.php exists, so you may want to deny access to it in your proxy.
