@@ -26,7 +26,7 @@ RUN mkdir -p $REPOSITORY_DUMMY \
 
 ### gitlist ####
 ARG GITLIST_DOWNLOAD_BASENAME=gitlist-master.tar.gz
-ARG GITLIST_DOWNLOAD_URL=https://github.com/cmanley/gitlist-docker/raw/custom-gitlist-build-php72/$GITLIST_DOWNLOAD_BASENAME
+ARG GITLIST_DOWNLOAD_URL=https://github.com/cmanley/gitlist-docker/raw/master/$GITLIST_DOWNLOAD_BASENAME
 ARG GITLIST_DOWNLOAD_SHA256=14c055f506705d808d17f5b66a423ccc16dbf33e26357fed1c8fa61be8c472b0
 WORKDIR /var/www
 RUN NEED='curl'; \
