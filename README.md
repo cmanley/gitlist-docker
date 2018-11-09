@@ -34,32 +34,36 @@ in all the `docker run` commands listed under the header *Usage*.
 The docker build command must be run as root or as member of the docker group,
 or else you'll get the error "permission denied while trying to connect to the Docker daemon socket".
 
-Usage
------
+Usage examples
+--------------
 
-Then assuming that your git repository root directory on the host machine is /var/lib/git
+Assuming that your git repository root directory on the host machine is /var/lib/git
 and has the privileges 750 (user may read+write, group can only read, and others are denied),
-and you want gitlist be accessible on 127.0.0.1:8888, execute one of the commands below. 
+and that you want gitlist be accessible on 127.0.0.1:8888, then execute one of the commands below. 
 You may want to place your preferred command in an shell alias or script to not have to type it out each time.
 
-	# Minimal
+Minimal:
+
 	docker run --name gitlist -v /var/lib/git:/repos:ro -p 127.0.0.1:8888:80/tcp --rm -d cmanley/gitlist-docker
 
-	# Recommended: Use the same time zone as the host.
+Recommended use (use the same time zone as the host):
+
 	docker run --name gitlist \
 	-v /var/lib/git:/repos:ro \
 	-p 127.0.0.1:8888:80 \
 	-e TZ=$(</etc/timezone) \
 	--rm -d cmanley/gitlist-docker
 
-	# How to specify a different theme
+Specify a different theme:
+
 	docker run --name gitlist \
 	-v /var/lib/git:/repos:ro \
 	-p 127.0.0.1:8888:80/tcp \
 	-e GITLIST_THEME=default \
 	--rm -d cmanley/gitlist-docker
 
-	# Specify a different theme, which group id to use for reading the repository, and the timezone.
+Specify a different theme, which group id to use for reading the repository, and the timezone:
+
 	docker run --name gitlist \
 	-v /var/lib/git:/repos:ro \
 	-p 127.0.0.1:8888:80/tcp \
@@ -68,7 +72,8 @@ You may want to place your preferred command in an shell alias or script to not 
 	-e TZ=$(</etc/timezone) \
 	--rm -d cmanley/gitlist-docker
 
-	# Start container and a shell session within it (this does not start nginx)
+Start container and a shell session within it (this does not start nginx):
+
 	docker run --name gitlist \
 	-v /var/lib/git:/repos:ro \
 	-p 127.0.0.1:8888:80/tcp \
