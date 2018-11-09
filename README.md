@@ -23,7 +23,7 @@ If you want to, then you can create a shorter tag (alias) for the image using th
 	docker tag cmanley/gitlist-docker gitlist
 
 With the shorter tag, you can replace the last argument `cmanley/gitlist-docker` (the image name) with `gitlist`
-in all the `docker run` commands listed under the header *Usage*.
+in all the `docker run` commands listed under the header *Usage examples*.
 
 ### Option 2: Build the image yourself ###
 
@@ -37,9 +37,9 @@ or else you'll get the error "permission denied while trying to connect to the D
 Usage examples
 --------------
 
-Assuming that your git repository root directory on the host machine is /var/lib/git
+Assuming that your git repository root directory on the host machine is `/var/lib/git`
 and has the privileges 750 (user may read+write, group can only read, and others are denied),
-and that you want gitlist be accessible on 127.0.0.1:8888, then execute one of the commands below. 
+and that you want gitlist be accessible on `127.0.0.1:8888`, then execute one of the commands below. 
 You may want to place your preferred command in an shell alias or script to not have to type it out each time.
 
 Minimal:
