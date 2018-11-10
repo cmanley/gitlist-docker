@@ -18,17 +18,14 @@ RUN apk update && apk --no-cache add \
 ### repository mount point and dummy repository ###
 ARG REPOSITORY_ROOT=/repos
 ARG REPOSITORY_DUMMY=$REPOSITORY_ROOT/If_you_see_this_then_the_host_volume_was_not_mounted
-RUN mkdir -p $REPOSITORY_DUMMY \
-	&& cd $REPOSITORY_DUMMY \
-	&& git --bare init \
-	&& cd -;
+RUN mkdir -p "$REPOSITORY_DUMMY" \
+	&& git --bare init "$REPOSITORY_DUMMY"
 
 
 ### gitlist ####
-ARG GITLIST_DOWNLOAD_BASENAME=gitlist-master.tar.gz
-ARG GITLIST_DOWNLOAD_URL=https://github.com/cmanley/gitlist-docker/raw/master/$GITLIST_DOWNLOAD_BASENAME
+ARG GITLIST_DOWNLOAD_FILENAME=gitlist-master.tar.gz
+ARG GITLIST_DOWNLOAD_URL=https://github.com/cmanley/gitlist-docker/raw/master/$GITLIST_DOWNLOAD_FILENAME
 ARG GITLIST_DOWNLOAD_SHA256=14c055f506705d808d17f5b66a423ccc16dbf33e26357fed1c8fa61be8c472b0
-WORKDIR /var/www
 RUN NEED='curl'; \
 	DEL='' \
 	&& for x in $NEED; do \
@@ -38,22 +35,22 @@ RUN NEED='curl'; \
 			&& apk --no-cache add $x; \
 		fi; \
 	done \
-	&& curl -fsSL "$GITLIST_DOWNLOAD_URL" -o "$GITLIST_DOWNLOAD_BASENAME" \
-	&& sha256sum $GITLIST_DOWNLOAD_BASENAME \
-	&& echo "$GITLIST_DOWNLOAD_SHA256  $GITLIST_DOWNLOAD_BASENAME" | sha256sum -c - \
-	&& tar -xf "$GITLIST_DOWNLOAD_BASENAME" \
-	&& rm "$GITLIST_DOWNLOAD_BASENAME" \
+	&& cd /var/www \
+	&& curl -fsSL "$GITLIST_DOWNLOAD_URL" -o "$GITLIST_DOWNLOAD_FILENAME" \
+	&& sha256sum "$GITLIST_DOWNLOAD_FILENAME" \
+	&& echo "$GITLIST_DOWNLOAD_SHA256  $GITLIST_DOWNLOAD_FILENAME" | sha256sum -c - \
+	&& tar -xf "$GITLIST_DOWNLOAD_FILENAME" \
+	&& rm "$GITLIST_DOWNLOAD_FILENAME" \
 	&& if [ -n "$DEL" ]; then echo "Delete temporary package(s) $DEL" && apk del $DEL; fi \
 	&& mkdir -p gitlist/cache \
 	&& chmod a+trwx gitlist/cache;
 
 # Create an alternate bootstrap3 theme called bootstrap3-wide having 100% width instead of a limited set of 'adaptive' widths.
-WORKDIR /var/www/gitlist/themes
-RUN cp -al bootstrap3 bootstrap3-wide && \
-	rm bootstrap3-wide/css/style.css && \
-	cp bootstrap3/css/style.css bootstrap3-wide/css/style.css && \
-	sed -E -i -e 's/(@media ?\(min-width:[0-9]+px\)\{\.container\{width:[0-9]+px\}\})+/.container{width:100%}/' bootstrap3-wide/css/style.css
-WORKDIR /
+RUN cd /var/www/gitlist/themes \
+	&& cp -al bootstrap3 bootstrap3-wide \
+	&& rm bootstrap3-wide/css/style.css \
+	&& cp bootstrap3/css/style.css bootstrap3-wide/css/style.css \
+	&& sed -E -i -e 's/(@media ?\(min-width:[0-9]+px\)\{\.container\{width:[0-9]+px\}\})+/.container{width:100%}/' bootstrap3-wide/css/style.css
 
 
 COPY copy /
