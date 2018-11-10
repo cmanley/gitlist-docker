@@ -1,7 +1,7 @@
 gitlist-docker
 ==============
 
-GitList (an elegant and modern git repository viewer) in a small footprint Docker image 
+GitList (an elegant and modern git repository viewer) in a small footprint Docker image
 (based on nginx, php-fpm 7.2, and Alpine Linux 3.8) with configurable runtime options (such as timezone, gid, theme)
 and an extra custom 100% wide bootstrap theme that is the new default theme.
 
@@ -16,20 +16,20 @@ Installation
 ### Option 1: Download image from hub.docker.com ###
 You can simply pull this image from docker hub like this:
 
-	docker pull cmanley/gitlist-docker
+	docker pull cmanley/gitlist
 
 If you want to, then you can create a shorter tag (alias) for the image using this command:
 
-	docker tag cmanley/gitlist-docker gitlist
+	docker tag cmanley/gitlist gitlist
 
-With the shorter tag, you can replace the last argument `cmanley/gitlist-docker` (the image name) with `gitlist`
+With the shorter tag, you can replace the last argument `cmanley/gitlist` (the image name) with `gitlist`
 in all the `docker run` commands listed under the header *Usage examples*.
 
 ### Option 2: Build the image yourself ###
 
 	git clone <Link from "Clone or download" button>
 	cd gitlist-docker
-	docker build --rm -t cmanley/gitlist-docker .
+	docker build --rm -t cmanley/gitlist .
 
 The docker build command must be run as root or as member of the docker group,
 or else you'll get the error "permission denied while trying to connect to the Docker daemon socket".
@@ -39,12 +39,12 @@ Usage examples
 
 Assuming that your git repository root directory on the host machine is `/var/lib/git`
 and has the privileges 750 (user may read+write, group can only read, and others are denied),
-and that you want gitlist be accessible on `127.0.0.1:8888`, then execute one of the commands below. 
+and that you want gitlist be accessible on `127.0.0.1:8888`, then execute one of the commands below.
 You may want to place your preferred command in an shell alias or script to not have to type it out each time.
 
 Minimal:
 
-	docker run --name gitlist -v /var/lib/git:/repos:ro -p 127.0.0.1:8888:80/tcp --rm -d cmanley/gitlist-docker
+	docker run --name gitlist -v /var/lib/git:/repos:ro -p 127.0.0.1:8888:80/tcp --rm -d cmanley/gitlist
 
 Recommended use (use the same time zone as the host):
 
@@ -52,7 +52,7 @@ Recommended use (use the same time zone as the host):
 	-v /var/lib/git:/repos:ro \
 	-p 127.0.0.1:8888:80 \
 	-e TZ=$(</etc/timezone) \
-	--rm -d cmanley/gitlist-docker
+	--rm -d cmanley/gitlist
 
 Specify a different theme:
 
@@ -60,7 +60,7 @@ Specify a different theme:
 	-v /var/lib/git:/repos:ro \
 	-p 127.0.0.1:8888:80/tcp \
 	-e GITLIST_THEME=default \
-	--rm -d cmanley/gitlist-docker
+	--rm -d cmanley/gitlist
 
 Specify a different theme, which group id to use for reading the repository, and the timezone:
 
@@ -70,14 +70,14 @@ Specify a different theme, which group id to use for reading the repository, and
 	-e GITLIST_GID=$(stat -c%g /var/lib/git) \
 	-e GITLIST_THEME=bootstrap3 \
 	-e TZ=$(</etc/timezone) \
-	--rm -d cmanley/gitlist-docker
+	--rm -d cmanley/gitlist
 
 Start container and a shell session within it (this does not start nginx):
 
 	docker run --name gitlist \
 	-v /var/lib/git:/repos:ro \
 	-p 127.0.0.1:8888:80/tcp \
-	--rm -it cmanley/gitlist-docker /bin/sh
+	--rm -it cmanley/gitlist /bin/sh
 
 In case of problems, start the container without the --rm option, check your docker logs, and check that the container is running:
 
@@ -87,7 +87,7 @@ In case of problems, start the container without the --rm option, check your doc
 Stop the container using:
 
 	docker stop gitlist
-	
+
 Remove the container (in case you didn't run it with the --rm option) using:
 
 	docker rm gitlist
