@@ -1,5 +1,4 @@
 #!/bin/sh
-set -e
 # Same settings as in Dockerfile:
 REPOSITORY_ROOT='/repos'
 REPOSITORY_DUMMY="$REPOSITORY_ROOT/If_you_see_this_then_the_host_volume_was_not_mounted"
