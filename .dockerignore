@@ -1,5 +1,5 @@
-.git
-.gitignore
+.git*
 LICENSE
 VERSION
 README.md
+gitlist-master.tar.gz
