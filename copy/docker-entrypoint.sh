@@ -16,7 +16,7 @@ fi
 
 
 # Default entrypoint (as defined by Dockerfile CMD):
-if [ "$(echo $1 | cut -c1-7)" = 'gitlist' ]; then
+if [ "$(echo $1 | cut -c1-7)" = 'gitlist' ] || [ "$1" = 'shell' ]; then
 	GITLIST_ROOT='/var/www/gitlist'
 	GITLIST_CACHE_DIR="$GITLIST_ROOT/cache"
 	GITLIST_THEMES_DIR="$GITLIST_ROOT/themes"
@@ -92,9 +92,14 @@ if [ "$(echo $1 | cut -c1-7)" = 'gitlist' ]; then
 		fi
 	fi
 
-	# Start nginx and php-fpm
-	exec /usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf
-
+	if [ "$1" = 'shell' ]; then
+		# Enter the shell
+		echo 'Start supervisord with: /usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf'
+		exec /bin/sh
+	else
+		# Start nginx and php-fpm
+		exec /usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf
+	fi
 else
 	# All other entry points. Typically /bin/sh
 	exec "$@"
