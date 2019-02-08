@@ -1,7 +1,7 @@
-FROM alpine:3.8
+FROM alpine:3.9
 
 LABEL Maintainer="Craig Manley https://github.com/cmanley" \
-      Description="GitList (an elegant git repository viewer) using nginx, php-fpm 7.2, and Alpine Linux 3.8"
+      Description="GitList (an elegant git repository viewer) using nginx, php-fpm 7.2, and Alpine Linux 3.9"
 
 RUN apk update && apk --no-cache add \
 	git \
@@ -50,8 +50,10 @@ RUN cd /var/www/gitlist/themes \
 	&& cp -al bootstrap3 bootstrap3-wide \
 	&& rm bootstrap3-wide/css/style.css \
 	&& cp bootstrap3/css/style.css bootstrap3-wide/css/style.css \
-	&& sed -E -i -e 's/(@media ?\(min-width:[0-9]+px\)\{\.container\{width:[0-9]+px\}\})+/.container{width:100%}/' bootstrap3-wide/css/style.css
-
+	&& sed -E -i -e 's/(@media ?\(min-width:[0-9]+px\)\{\.container\{width:[0-9]+px\}\})+/.container{width:100%}/' bootstrap3-wide/css/style.css \
+	&& rm bootstrap3-wide/twig/commits_list.twig \
+	&& cp bootstrap3/twig/commits_list.twig bootstrap3-wide/twig/commits_list.twig \
+	&& sed -i -e 's/date("F j, Y")/date("l, j F Y")/' bootstrap3-wide/twig/commits_list.twig
 
 COPY copy /
 EXPOSE 80

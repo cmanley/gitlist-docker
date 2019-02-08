@@ -2,7 +2,7 @@ gitlist-docker
 ==============
 
 GitList (an elegant and modern git repository viewer) in a small footprint Docker image
-(based on nginx, php-fpm 7.2, and Alpine Linux 3.8) with configurable runtime options (such as timezone, gid, theme)
+(based on nginx, php-fpm 7.2, and Alpine Linux 3.9) with configurable runtime options (such as timezone, gid, theme)
 and an extra custom 100% wide bootstrap theme that is the new default theme.
 
 You can use it to quickly and safely expose a web interface to the git repositories directory on your host machine.
