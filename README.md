@@ -7,8 +7,7 @@ and an extra custom 100% wide bootstrap theme that is the new default theme.
 
 You can use it to quickly and safely expose a web interface to the git repositories directory on your host machine.
 
-The Dockerfile uses a custom build of GitList that's a more recent build than the 1.01 release
-available from http://gitlist.org/ or https://github.com/klaussilveira/gitlist
+The Dockerfile uses the GitList 1.02 release available from http://gitlist.org/ or https://github.com/klaussilveira/gitlist
 
 Installation
 ------------

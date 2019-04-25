@@ -23,10 +23,10 @@ RUN mkdir -p "$REPOSITORY_DUMMY" \
 
 
 ### gitlist ####
-ARG GITLIST_DOWNLOAD_FILENAME=gitlist-master.tar.gz
-ARG GITLIST_DOWNLOAD_URL=https://github.com/cmanley/gitlist-docker/raw/master/$GITLIST_DOWNLOAD_FILENAME
-ARG GITLIST_DOWNLOAD_SHA256=14c055f506705d808d17f5b66a423ccc16dbf33e26357fed1c8fa61be8c472b0
-RUN NEED='curl'; \
+ARG GITLIST_DOWNLOAD_FILENAME='gitlist-1.0.2.tar.gz'
+ARG GITLIST_DOWNLOAD_URL="https://github.com/klaussilveira/gitlist/releases/download/1.0.2/$GITLIST_DOWNLOAD_FILENAME"
+ARG GITLIST_DOWNLOAD_SHA256=38728b688f6600ad97b6d5900b472da6529ff7f3b8c0669ada25ae0bb65d34d9
+RUN NEED='wget'; \
 	DEL='' \
 	&& for x in $NEED; do \
 		if [ $(apk list "$x" | grep -F [installed] | wc -l) -eq 0 ]; then \
@@ -36,7 +36,7 @@ RUN NEED='curl'; \
 		fi; \
 	done \
 	&& cd /var/www \
-	&& curl -fsSL "$GITLIST_DOWNLOAD_URL" -o "$GITLIST_DOWNLOAD_FILENAME" \
+	&& wget -q "$GITLIST_DOWNLOAD_URL" -O "$GITLIST_DOWNLOAD_FILENAME" \
 	&& sha256sum "$GITLIST_DOWNLOAD_FILENAME" \
 	&& echo "$GITLIST_DOWNLOAD_SHA256  $GITLIST_DOWNLOAD_FILENAME" | sha256sum -c - \
 	&& tar -xf "$GITLIST_DOWNLOAD_FILENAME" \
